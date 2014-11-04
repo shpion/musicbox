@@ -1,0 +1,61 @@
+<%= form_for @my_record, :html => { :class => "form-horizontal my_record" } do |f| %>
+
+    <% if @my_record.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@my_record.errors.count, "error") %> prohibited this my_record from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @my_record.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'form-control' %>
+    </div>
+    <%= error_span(@my_record[:name]) %>
+  </div>
+    <div class="control-group">
+      <%= f.label :author, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :author, :class => 'form-control' %>
+      </div>
+      <%= error_span(@my_record[:author]) %>
+    </div>
+
+
+  <div style="padding-bottom: 20px">
+      <label>Audio file</label><br>
+      <%= f.file_field :file_name, :accept => "audio/*" %>
+  </div>
+
+  <!--<div class="control-group">-->
+    <!--<%= f.label :unic_name, :class => 'control-label' %>-->
+    <!--<div class="controls">-->
+      <!--<%= f.text_field :unic_name, :class => 'form-control' %>-->
+    <!--</div>-->
+    <!--<%= error_span(@my_record[:unic_name]) %>-->
+  <!--</div>-->
+  <!--<div class="control-group">-->
+    <!--<%= f.label :size, :class => 'control-label' %>-->
+    <!--<div class="controls">-->
+      <!--<%= f.text_field :size, :class => 'form-control' %>-->
+    <!--</div>-->
+    <!--<%= error_span(@my_record[:size]) %>-->
+  <!--</div>-->
+
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            my_records_path, :class => 'btn btn-default' %>
+
+<% end %>

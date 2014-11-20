@@ -1,3 +1,5 @@
 <% if user_signed_in? %>
 <p><%= link_to 'My records', my_records_path %><br></p>
+<p><%= link_to 'My friends', friends_path %><br></p>
+<p><%= link_to 'New requests', '/new_request' %><br></p>
 <% end %>

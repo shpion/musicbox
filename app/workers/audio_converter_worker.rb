@@ -20,7 +20,8 @@ class AudioConverterWorker
 
     if(output['Queue done'] == "Queue done")
       File.unlink("public/uploads/" + record.unic_name + "." + ext)
-      record.update({:converted => 1})
+      file_size = File.size("public/uploads/" + record.unic_name + ".mp3")
+      record.update({:converted => 1, :size => file_size})
     else
       record.update({:converted => 2})
     end

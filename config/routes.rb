@@ -1,12 +1,24 @@
 Rails.application.routes.draw do
 
+  get '/friends/:id/add', to: 'friends#create'
+
+  get '/friends/:id/add_record/:rec_id', to: 'friends#add_record'
+
+  get 'new_request', to:'friends#new_request'
+
+  get 'new_request/show/:id', to:'friends#new_request_show'
+
+  resources :friends
+
   devise_for :users
 
   get 'home/index'
 
+  post  'my_records/is_converted', controller: 'my_records', action: 'is_converted'
+
   resources :my_records
 
-  get 'persons/profile', as: 'user_root'
+  # get 'persons/profile', as: 'user_root'
 
   root 'home#index'
 

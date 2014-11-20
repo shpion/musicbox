@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141030151940) do
+ActiveRecord::Schema.define(version: 20141107105010) do
+
+  create_table "friends", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.boolean  "active",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "my_records", force: true do |t|
     t.integer  "user_id"
@@ -23,7 +31,6 @@ ActiveRecord::Schema.define(version: 20141030151940) do
     t.string   "author"
     t.integer  "converted",     limit: 1, default: 0
     t.string   "file_name"
-    t.string   "file_name_tmp"
   end
 
   create_table "users", force: true do |t|
@@ -39,6 +46,8 @@ ActiveRecord::Schema.define(version: 20141030151940) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
+    t.string   "avatar"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

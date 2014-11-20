@@ -1,0 +1,49 @@
+<%- model_class = Friend -%>
+<div class="page-header">
+  <% if @friend_info.avatar? %>
+      <%= image_tag(@friend_info.avatar_url) %>
+  <% else %>
+      <%= image_tag("default.png") %>
+  <% end%>
+  <h2><%= @friend_info.name %> </h2>
+  <h3>(<%= @friend_info.email %>)</h3>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th><%= model_class.human_attribute_name(:name) %></th>
+    <th><%= model_class.human_attribute_name(:author) %></th>
+    <th><%= model_class.human_attribute_name(:size) %></th>
+    <th><%= model_class.human_attribute_name(:created_at) %></th>
+    <th><%=t '.actions', :default => t("helpers.actions") %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @friend_records.each do |record| %>
+      <% if record.converted == 1 %>
+      <tr>
+        <td>
+          <p><%= record.name %></p>
+          <div>
+
+            <audio controls>
+              <source src="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= record.unic_name %>.mp3" type="audio/mpeg">
+            </audio>
+            <a class="btn download" href="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= record.unic_name %>.mp3"></a>
+          </div>
+        </td>
+        <td><%= record.author if record.author != "0" %></td>
+        <td><p id="size-<%= record.id %>"><%= number_to_human_size(record.size) %></p></td>
+        <td><%= record.created_at.strftime("%d.%m.%Y") %></td>
+        <td>
+          <%= link_to "Add to Me", "/friends/#{@friend_info.id}/add_record/#{record.id}", :class => 'btn btn-default btn-xs' %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              friends_path, :class => 'btn btn-default'  %>

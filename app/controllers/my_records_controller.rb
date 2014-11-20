@@ -5,7 +5,7 @@ class MyRecordsController < ApplicationController
   # GET /my_records
   # GET /my_records.json
   def index
-    @my_records = MyRecord.all
+    @my_records = MyRecord.where("user_id = #{current_user.id}")
   end
 
   # GET /my_records/1
@@ -27,20 +27,8 @@ class MyRecordsController < ApplicationController
   def create
     # puts("params " + my_record_params[:my_record][:name])
 
-    if params[:my_record][:file_name].present? && params[:my_record][:file_name].content_type.split("/")[0] != "audio" && params[:my_record][:file_name].content_type.split("/")[0] != "video"
-      puts("BAD " + params[:my_record][:file_name].content_type.split("/")[0])
-    end
-
-    # respond_to do |format|
-    #   if params[:my_record][:file_name].present? && params[:my_record][:file_name].content_type.split("/")[0] != "audio"
-    #     format.html { redirect_to :new, notice: 'Record BAD' }
-    #     format.json { render json: @my_record.errors, status: :unprocessable_entity }
-    #   end
-    # end
-
     respond_to do |format|
       if params[:my_record][:file_name].present? && params[:my_record][:file_name].content_type.split("/")[0] != "audio" && params[:my_record][:file_name].content_type.split("/")[0] != "video"
-        @my_record = MyRecord.new
         format.html { redirect_to '/my_records/new',  alert: 'Unsupported format.' }
       else
         @my_record = MyRecord.new(my_record_params)
@@ -80,10 +68,22 @@ class MyRecordsController < ApplicationController
     end
   end
 
+  def is_converted
+    ids = params[:ids].split("#")
+
+    @records = MyRecord.find(ids)
+
+    # puts("Records " + records[0].file_name)
+
+    respond_to do |format|
+      format.json { render json: @records }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_my_record
-      @my_record = MyRecord.find(params[:id])
+      @my_record = MyRecord.where({id: params[:id],  user_id: current_user.id})[0]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

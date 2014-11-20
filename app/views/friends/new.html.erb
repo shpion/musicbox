@@ -1,0 +1,22 @@
+<%- model_class = Friend -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <% @users.each do |user| %>
+      <tr>
+        <td>
+          <% if user.avatar? %>
+              <%= image_tag(user.avatar_url) %>
+          <% else %>
+              <%= image_tag("default.png") %>
+          <% end%>
+        </td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= link_to "Add to Friends", "/friends/#{user.id}/add", :class => 'btn btn-default btn-xs' %></td>
+      </tr>
+  <% end %>
+</table>
+<%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            friends_path, :class => 'btn btn-default' %>

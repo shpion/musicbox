@@ -1,0 +1,46 @@
+<%- model_class = Friend -%>
+<div class="page-header">
+  <% if @friend_info.avatar? %>
+      <%= image_tag(@friend_info.avatar_url) %>
+  <% else %>
+      <%= image_tag("default.png") %>
+  <% end%>
+  <h2><%= @friend_info.name %> </h2>
+  <h3>(<%= @friend_info.email %>)</h3>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th><%= model_class.human_attribute_name(:name) %></th>
+    <th><%= model_class.human_attribute_name(:author) %></th>
+    <th><%= model_class.human_attribute_name(:size) %></th>
+    <th><%= model_class.human_attribute_name(:created_at) %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @friend_records.each do |record| %>
+      <% if record.converted == 1 %>
+          <tr>
+            <td>
+              <p><%= record.name %></p>
+              <div>
+                <a class="btn download" href="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= record.unic_name %>.mp3"></a>
+              </div>
+            </td>
+            <td><%= record.author if record.author != "0" %></td>
+            <td><p id="size-<%= record.id %>"><%= number_to_human_size(record.size) %></p></td>
+            <td><%= record.created_at.strftime("%d.%m.%Y") %></td>
+          </tr>
+      <% end %>
+  <% end %>
+  </tbody>
+</table>
+<%= link_to "Add Friend", "/friends/#{@friend_info.id}/add", :class => 'btn btn-primary' %>
+<%= link_to "Reject",
+            friend_path(@friend),
+            :method => :delete,
+            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+            :class => 'btn btn-xs btn-danger' %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+            "/new_request", :class => 'btn btn-default'  %>

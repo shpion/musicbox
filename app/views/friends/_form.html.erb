@@ -1,0 +1,31 @@
+<%= form_for @friend, :html => { :class => "form-horizontal friend" } do |f| %>
+
+    <% if @friend.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@friend.errors.count, "error") %> prohibited this friend from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @friend.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <label class="control-label">Select Friend</label>
+    <div class="controls">
+      <%= f.select :friend_id, options_from_collection_for_select(@users, 'id', 'email'), include_blank: true, :class => 'form-control' %>
+    </div>
+    <%= error_span(@friend[:friend_id]) %>
+  </div>
+
+  <%= f.submit "Add Friend", :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            friends_path, :class => 'btn btn-default' %>
+
+<% end %>

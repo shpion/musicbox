@@ -37,23 +37,6 @@
       <%= f.file_field :file_name, :accept => "audio/*" %>
   </div>
 
-  <!--<div class="control-group">-->
-    <!--<%= f.label :unic_name, :class => 'control-label' %>-->
-    <!--<div class="controls">-->
-      <!--<%= f.text_field :unic_name, :class => 'form-control' %>-->
-    <!--</div>-->
-    <!--<%= error_span(@my_record[:unic_name]) %>-->
-  <!--</div>-->
-  <!--<div class="control-group">-->
-    <!--<%= f.label :size, :class => 'control-label' %>-->
-    <!--<div class="controls">-->
-      <!--<%= f.text_field :size, :class => 'form-control' %>-->
-    <!--</div>-->
-    <!--<%= error_span(@my_record[:size]) %>-->
-  <!--</div>-->
-
-
-
   <%= f.submit nil, :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
             my_records_path, :class => 'btn btn-default' %>

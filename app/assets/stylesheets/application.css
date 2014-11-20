@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+h2, h3{
+    display: inline;
+}

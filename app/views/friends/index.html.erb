@@ -24,7 +24,7 @@
      if good
     %>
       <tr>
-        <td>
+        <td class="avatar">
           <% if friend.active %>
             <% if user.avatar? %>
               <%= link_to image_tag(user.avatar_url), "/friends/#{user.id}" %>
@@ -41,7 +41,13 @@
               <%= user.name %>
           <% end %>
         </td>
-        <td><%= friend.active %></td>
+        <td class="active_friend">
+          <% if friend.active %>
+              <%= image_tag("active.png") %>
+          <% else %>
+              <%= image_tag("not_active.png") %>
+          <% end %>
+        </td>
         <td><%= friend.created_at.strftime("%d.%m.%Y") %></td>
         <td>
           <%= link_to "Leave",

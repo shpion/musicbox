@@ -34,7 +34,7 @@
 
   <div style="padding-bottom: 20px">
       <label>Audio file</label><br>
-      <%= f.file_field :file_name, :accept => "audio/*" %>
+      <%= f.file_field :file_name, :accept => "audio/*", :required => true %>
   </div>
 
   <%= f.submit nil, :class => 'btn btn-primary' %>

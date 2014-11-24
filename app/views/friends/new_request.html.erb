@@ -13,7 +13,7 @@
   <% @friends.each do |friend| %>
       <% user = User.find(friend.user_id) %>
       <tr>
-        <td>
+        <td class="avatar">
           <% if user.avatar? %>
               <%= link_to image_tag(user.avatar_url), "new_request/show/#{friend.id}" %>
           <% else %>

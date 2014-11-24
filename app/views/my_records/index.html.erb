@@ -26,7 +26,7 @@
                   <audio controls style="display: none" >
                     <source src="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= my_record.unic_name %>.mp3" type="audio/mpeg">
                   </audio>
-                <a class="btn download" href="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= my_record.unic_name %>.mp3"></a>
+                <%= link_to image_tag("download.png"), "/uploads/#{my_record.unic_name}.mp3", :class => "download", :style => "display: none" %>
               </div>
               <p class="convert-error" id="convert-error-<%= my_record.id %>" style="display: none">Error: not converted</p>
               <script type="text/javascript">
@@ -37,7 +37,8 @@
                   <audio controls>
                     <source src="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= my_record.unic_name %>.mp3" type="audio/mpeg">
                   </audio>
-                    <a class="btn download" href="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= my_record.unic_name %>.mp3"></a>
+                    <%= link_to image_tag("download.png"), "/uploads/#{my_record.unic_name}.mp3", :class => "download" %>
+                    <!--<a class="btn download" href="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= my_record.unic_name %>.mp3"></a>-->
               </div>
           <% elsif my_record.converted == 2 %>
               <p class="convert-error">Error: not converted</p>

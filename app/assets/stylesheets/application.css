@@ -17,3 +17,34 @@
 h2, h3{
     display: inline;
 }
+
+.avatar img{
+    width: 100px;
+}
+
+.page-header img{
+    width: 200px;
+}
+
+.reject{
+    padding: 5px 12px;
+    font-size: 14px;
+}
+
+.download{
+    padding: 0;
+}
+
+.download img{
+    height: 30px;
+    margin-top: -18px;
+}
+
+a:hover{
+    background: none;
+    color: #333;
+}
+
+.active_friend img{
+    width: 25px;
+}

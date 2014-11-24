@@ -19,6 +19,17 @@
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
+    <div class="avatar">
+      <%= f.label :avatar %><br>
+      <% if resource.avatar?%>
+        <%= image_tag(resource.avatar_url)%>
+      <% else %>
+        <%= image_tag("default.png")%>
+      <% end %>
+      <%= f.file_field :avatar %>
+      <%= f.hidden_field :avatar_cache %>
+    </div>
+
   <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
   <%= f.password_field :current_password %></div>
 

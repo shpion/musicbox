@@ -51,7 +51,13 @@
           <ul class="nav navbar-nav">
             <li><%= link_to 'My Records', my_records_path %></li>
             <li><%= link_to 'My Friends', friends_path %></li>
-            <li><%= link_to 'New Requests', '/new_request' %></li>
+            <li>
+              <% if @new_requests > 0 %>
+                <%= link_to "New Requests (#{@new_requests})", '/new_request' %>
+              <% else %>
+                  <%= link_to 'New Requests', '/new_request' %>
+              <% end %>
+            </li>
           </ul>
         </div>
         <% end %>
@@ -66,24 +72,11 @@
     </div>
 
     <div class="container">
-      <!--<p class="notice"><%= notice %></p>-->
-      <!--<p class="alert"><%= alert %></p>-->
       <div class="row">
         <div class="col-lg-9">
           <%= bootstrap_flash %>
           <%= yield %>
         </div>
-        <!--<div class="col-lg-3">-->
-          <!--<div class="well sidebar-nav">-->
-            <!--<h3>Sidebar</h3>-->
-            <!--<ul class="nav nav-list">-->
-              <!--<li class="nav-header">Sidebar</li>-->
-              <!--<li><%= link_to "Link1", "/path1"  %></li>-->
-              <!--<li><%= link_to "Link2", "/path2"  %></li>-->
-              <!--<li><%= link_to "Link3", "/path3"  %></li>-->
-            <!--</ul>-->
-          <!--</div>&lt;!&ndash;/.well &ndash;&gt;-->
-        <!--</div>&lt;!&ndash;/span&ndash;&gt;-->
       </div><!--/row-->
 
       <footer>

@@ -11,6 +11,7 @@ class MyRecordsController < ApplicationController
   # GET /my_records/1
   # GET /my_records/1.json
   def show
+    redirect_to my_records_url
   end
 
   # GET /my_records/new
@@ -47,13 +48,25 @@ class MyRecordsController < ApplicationController
   # PATCH/PUT /my_records/1
   # PATCH/PUT /my_records/1.json
   def update
+
     respond_to do |format|
-      if @my_record.update(my_record_params)
-        format.html { redirect_to @my_record, notice: 'Record was successfully updated.' }
-        format.json { render :show, status: :ok, location: @my_record }
+      if params[:my_record][:file_name].present? && params[:my_record][:file_name].content_type.split("/")[0] != "audio" && params[:my_record][:file_name].content_type.split("/")[0] != "video"
+        format.html { redirect_to '/my_records/new',  alert: 'Unsupported format.' }
       else
-        format.html { render :edit }
-        format.json { render json: @my_record.errors, status: :unprocessable_entity }
+        if params[:my_record][:file_name].present?
+          File.delete(Rails.root.join('public', 'uploads', @my_record.unic_name + ".mp3")) if File.exist?(Rails.root.join('public', 'uploads', @my_record.unic_name + ".mp3"))
+        end
+
+        if @my_record.update(my_record_params)
+          if params[:my_record][:file_name].present?
+            AudioConverterWorker.perform_async(@my_record.id)
+          end
+          format.html { redirect_to my_records_url, notice: 'Record was successfully updated.' }
+          format.json { render :show, status: :created, location: @my_record }
+        else
+          format.html { render :new }
+          format.json { render json: @my_record.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -61,6 +74,7 @@ class MyRecordsController < ApplicationController
   # DELETE /my_records/1
   # DELETE /my_records/1.json
   def destroy
+    File.delete(Rails.root.join('public', 'uploads', @my_record.unic_name + ".mp3")) if File.exist?(Rails.root.join('public', 'uploads', @my_record.unic_name + ".mp3"))
     @my_record.destroy
     respond_to do |format|
       format.html { redirect_to my_records_url, notice: 'Record was successfully destroyed.' }
@@ -97,17 +111,17 @@ class MyRecordsController < ApplicationController
         params[:my_record][:author] = false
       end
 
-      unic_name = Random.rand(1000...9999).to_s + Date.today.strftime("%d%m%Y%m%s")
-
-      upload(unic_name)
-
-      params[:my_record][:unic_name] = unic_name
-
-      params[:my_record][:size] = params[:my_record][:file_name].size
-
-      params[:my_record][:file_name] = params[:my_record][:file_name].original_filename
-
-      params.require(:my_record).permit(:user_id, :name, :author, :file_name, :unic_name, :size)
+      if params[:my_record][:file_name]
+        unic_name = Random.rand(1000...9999).to_s + Date.today.strftime("%d%m%Y%m%s")
+        upload(unic_name)
+        params[:my_record][:unic_name] = unic_name
+        params[:my_record][:size] = params[:my_record][:file_name].size
+        params[:my_record][:file_name] = params[:my_record][:file_name].original_filename
+        params[:my_record][:converted] = 0
+        params.require(:my_record).permit(:user_id, :name, :author, :file_name, :unic_name, :size, :converted)
+      else
+        params.require(:my_record).permit(:user_id, :name, :author)
+      end
 
     end
 

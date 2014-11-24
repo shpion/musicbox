@@ -30,7 +30,7 @@
             <audio controls>
               <source src="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= record.unic_name %>.mp3" type="audio/mpeg">
             </audio>
-            <a class="btn download" href="http://<%= request.env['HTTP_HOST'] %>/uploads/<%= record.unic_name %>.mp3"></a>
+            <%= link_to image_tag("download.png"), "/uploads/#{record.unic_name}.mp3", :class => "download" %>
           </div>
         </td>
         <td><%= record.author if record.author != "0" %></td>

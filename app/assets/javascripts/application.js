@@ -34,7 +34,8 @@ function check_converted(){
                 $(data).each(function (i) {
                     if (this.converted == 1) {
                         $("#convert-" + this.id).hide();
-                        $("#audio-controls-" + this.id).show();
+                        $("#audio-controls-" + this.id + " audio").show();
+                        $("#audio-controls-" + this.id + " .download").show();
                         $("#size-" + this.id).html(fileSize(this.size));
                         notConvertedIds = notConvertedIds.replace(this.id + "#", "");
                     }
